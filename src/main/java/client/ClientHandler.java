@@ -94,8 +94,14 @@ public class ClientHandler {
                         continue;
 
                     case "ls":
-                        oos.writeObject("ls");       // сама команда
-                        oos.writeObject("la");       // или "", если без параметров
+                        oos.writeObject("ls"); // отправляем команду
+                        oos.writeObject(argument); // отправляем аргумент (может быть "", "-a", "-l", и т.д.)
+                        oos.flush();
+
+                        // читаем и печатаем ответ сервера
+                        String lsResponse = (String) ois.readObject();
+                        System.out.println(lsResponse);
+
                         continue;
                     case "cd":
                     case "file":
@@ -114,8 +120,6 @@ public class ClientHandler {
                             System.out.println(response);
                         }
                         break;
-
-
 
                     default:
                         System.out.println("Unknown command. Type 'help' for available commands.");
@@ -138,7 +142,6 @@ public class ClientHandler {
             System.out.println("Unable to clear terminal.");
         }
     }
-
 
     private void printHelp() {
         System.out.println("Available commands:");

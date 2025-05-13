@@ -12,6 +12,11 @@ public class ServerSelector {
             printMenu(servers);
 
             System.out.print("Select server ID, 'new' to add (':q' to quit): ");
+            if (!scanner.hasNextLine()) {
+                System.out.println("\nNo input found. Exiting.");
+                return null;
+            }
+
             String input = scanner.nextLine().trim();
 
             if (input.equalsIgnoreCase(":q") || input.equalsIgnoreCase("exit")) {
@@ -38,9 +43,7 @@ public class ServerSelector {
 
     private static void printMenu(Map<Integer, ServerInfo> servers) {
         System.out.println("\n--- Available Servers ---");
-        servers.forEach((id, server) ->
-                System.out.printf("%d: %s:%d%n", id, server.getIp(), server.getPort())
-        );
+        servers.forEach((id, server) -> System.out.printf("%d: %s:%d%n", id, server.getIp(), server.getPort()));
         if (servers.isEmpty()) {
             System.out.println("No servers found.");
         }
